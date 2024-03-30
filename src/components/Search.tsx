@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 
-import { useUsersContext } from '../hooks/UseUsersContext';
+import { useUsersContext } from '../hooks/useUsersContext';
 import { userData } from '../types/interfaces';
 
 interface SearchProps {
@@ -43,9 +43,6 @@ const Search = ({ onAddUser }: SearchProps) => {
                 setShowVariants(true);
               }
             }}
-            onBlur={() => {
-              setShowVariants(false);
-            }}
           />
           {showVariants && (
             <ListGroup className="position-absolute w-30">
@@ -53,6 +50,7 @@ const Search = ({ onAddUser }: SearchProps) => {
                 <ListGroup.Item
                   key={index}
                   onClick={() => {
+                    console.log('hello');
                     handleUserSelect(variant);
                     setShowVariants(false);
                   }}

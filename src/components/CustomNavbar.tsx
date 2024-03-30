@@ -3,15 +3,15 @@ import { Container, Navbar } from 'react-bootstrap';
 
 import { useUsersContext } from '../hooks/useUsersContext';
 import { formData } from '../types/interfaces';
-import CustomForm from './CustomForm';
 import CustomModal from './CustomModal';
+import CustomForm from './forms/UserForm';
 import Search from './Search';
 
 const CustomNavbar = () => {
   const { addNewUserToLocalStorage } = useUsersContext();
   const [showModal, setShowModal] = useState(false);
 
-  const handleFormsubmit = (newData: formData) => {
+  const handleFormSubmit = (newData: formData) => {
     addNewUserToLocalStorage(newData);
     setShowModal(false);
   };
@@ -36,7 +36,7 @@ const CustomNavbar = () => {
         }}
         title={'Add New User'}
       >
-        <CustomForm handleSubmit={handleFormsubmit} />
+        <CustomForm handleSubmit={handleFormSubmit} />
       </CustomModal>
     </Navbar>
   );

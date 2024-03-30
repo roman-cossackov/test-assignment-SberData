@@ -3,13 +3,13 @@ import { SyntheticEvent } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { formData } from '../types/interfaces';
+import { formData } from '../../types/interfaces';
 
-interface CustomFromProps {
+interface UserFormProps {
   handleSubmit: (newData: formData) => void;
 }
 
-function CustomForm({ handleSubmit }: CustomFromProps) {
+function UserForm({ handleSubmit }: UserFormProps) {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
@@ -82,4 +82,4 @@ function CustomForm({ handleSubmit }: CustomFromProps) {
   );
 }
 
-export default CustomForm;
+export default UserForm;
