@@ -1,13 +1,17 @@
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 
+import { useUserContext } from '../hooks/UseUsersContext';
 import { formData, userData } from '../types/interfaces';
+import CustomModal from './CustomModal';
 
 interface ProfileProps {
   profileData: userData;
-  handleEdit: () => void;
+//   onEdit: () => void;
+//   onComment: () => void;
+//   onRate: () => void;
 }
 
-const Profile = ({ profileData, handleEdit }: ProfileProps) => {
+const Profile = ({ profileData, onEdit, onComment, onRate }: ProfileProps) => {
   if (!profileData) return <h1>data not found </h1>;
 
   return (
@@ -29,9 +33,15 @@ const Profile = ({ profileData, handleEdit }: ProfileProps) => {
               <Card.Text>
                 <strong>Phone number:</strong> {profileData.phoneNumber}
               </Card.Text>
-              <Button variant="primary" onClick={handleEdit}>
-                Edit Profile
-              </Button>
+              <Card.Text>
+                <strong>Rating:</strong> {}
+              </Card.Text>
+              <Card.Text>
+                <strong>Comments:</strong> {}
+              </Card.Text>
+              <Button variant="primary">Edit Profile</Button>
+              <Button variant="primary">Add comment</Button>
+              <Button variant="primary">Rate user</Button>
             </Card.Body>
           </Card>
         </Col>

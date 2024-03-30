@@ -1,48 +1,22 @@
-import { SyntheticEvent, useState } from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
-import { formData, userData } from '../types/interfaces';
-import CustomForm from './CustomForm';
-import CustomModal from './CustomModal';
+import { useUsersContext } from '../hooks/UseUsersContext';
 import Profile from './Profile';
 
-interface MainProps {
-  curUser: userData;
-}
+const Main = () => {
+  const { curUser } = useUsersContext();
+  console.log(curUser);
 
-const Main = ({ curUser }: MainProps) => {
-  const initialFormDataState = {
-    name: '',
-    surname: '',
-    email: '',
-    phoneNumber: '',
-  };
-  const [formData, setFormData] = useState<formData>(initialFormDataState);
-  const [showModal, setShowModal] = useState(false);
+  const profileContent = curUser ? (
+    <Profile profileData={curUser} />
+  ) : (
+    'user not selected'
+  );
 
   return (
     <Container style={{ height: '600px', marginTop: '100px' }}>
-      <h1>Main Component</h1>
-      <Profile
-        profileData={curUser}
-        handleEdit={() => {
-          setShowModal(true);
-        }}
-      />
-      <CustomModal
-        title={'Edit user'}
-        showModal={showModal}
-        handleClose={() => {
-          setShowModal(false);
-        }}
-      >
-        <CustomForm
-          handleSubmit={(newData: formData) => {
-            setFormData(newData);
-            setShowModal(false);
-          }}
-        />
-      </CustomModal>
+      <h1>User Profile</h1>
+      {profileContent}
     </Container>
   );
 };

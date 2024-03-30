@@ -1,27 +1,32 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, ListGroup, Row } from 'react-bootstrap';
 
+import { useUsersContext } from '../hooks/UseUsersContext';
 import { userData } from '../types/interfaces';
-import { saearchUsersInLocalStorage } from '../utils/localStorage';
 
 interface SearchProps {
-  onSearch: (searchTerm: string) => void;
   onAddUser: () => void;
-  setCurUser: React.Dispatch<React.SetStateAction<userData | undefined>>;
 }
 
-const Search = ({ onSearch, onAddUser, setCurUser }: SearchProps) => {
+const Search = ({ onAddUser }: SearchProps) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [userVariants, setUserVariants] = useState<userData[] | ''>();
+  const [userVariants, setUserVariants] = useState<userData[]>([]);
+  const [showVariants, setShowVariants] = useState(false);
+
+  const { searchUsersInLocalStorage, handleUserSelect } = useUsersContext();
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchTerm(value);
-    const variants = value ? saearchUsersInLocalStorage(value) : '';
+    const variants = value ? searchUsersInLocalStorage(value) : [];
 
     setUserVariants(variants);
 
-    // onSearch(value);
+    if (value.length) {
+      setShowVariants(true);
+    } else {
+      setShowVariants(false);
+    }
   };
 
   return (
@@ -33,14 +38,23 @@ const Search = ({ onSearch, onAddUser, setCurUser }: SearchProps) => {
             placeholder="Enter user email..."
             value={searchTerm}
             onChange={handleSearchChange}
+            onFocus={() => {
+              if (searchTerm) {
+                setShowVariants(true);
+              }
+            }}
+            onBlur={() => {
+              setShowVariants(false);
+            }}
           />
-          {userVariants && (
+          {showVariants && (
             <ListGroup className="position-absolute w-30">
               {userVariants.map((variant, index) => (
                 <ListGroup.Item
                   key={index}
                   onClick={() => {
-                    setCurUser(variant);
+                    handleUserSelect(variant);
+                    setShowVariants(false);
                   }}
                 >
                   {variant.email}
