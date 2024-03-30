@@ -1,25 +1,55 @@
-import React from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import { useState } from 'react';
+import { Container, Navbar } from 'react-bootstrap';
 
-const CustomNavbar = () => {
+import { formData } from '../types/interfaces';
+import { addNewUserToLocalStorage } from '../utils/localStorage';
+import CustomForm from './CustomForm';
+import CustomModal from './CustomModal';
+import Search from './Search';
+
+interface CustomNavbar {
+  setCurUser: React.Dispatch<React.SetStateAction<userData | undefined>>;
+}
+
+const CustomNavbar = ({ setCurUser }: CustomNavbar) => {
+  //   const initialFormDataState = {
+  //     name: '',
+  //     surname: '',
+  //     email: '',
+  //     phoneNumber: '',
+  //   };
+
+  //   const [newUserData, setNewUserData] = useState<formData>(initialFormDataState);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleFormsubmit = (newData: formData) => {
+    addNewUserToLocalStorage(newData);
+    setShowModal(false);
+  };
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand href="/">Custom Navbar</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/">Link</Nav.Link>
-            <Nav.Link href="/">About</Nav.Link>
-            <Nav.Link href="/">Contact</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link href="/">Login</Nav.Link>
-            <Nav.Link href="/">Sign Up</Nav.Link>
-          </Nav>
+        <Navbar.Collapse id="basic-navbar-nav" style={{ marginLeft: '300px' }}>
+          <Search
+            setCurUser={setCurUser}
+            onAddUser={() => {
+              setShowModal(true);
+            }}
+          />
         </Navbar.Collapse>
       </Container>
+      <CustomModal
+        showModal={showModal}
+        handleClose={() => {
+          setShowModal(false);
+        }}
+        title={'Add New User'}
+      >
+        <CustomForm handleSubmit={handleFormsubmit} />
+      </CustomModal>
     </Navbar>
   );
 };

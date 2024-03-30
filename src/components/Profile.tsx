@@ -1,13 +1,15 @@
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 
-import { formData } from '../types/interfaces';
+import { formData, userData } from '../types/interfaces';
 
 interface ProfileProps {
-  profileData: formData;
+  profileData: userData;
   handleEdit: () => void;
 }
 
 const Profile = ({ profileData, handleEdit }: ProfileProps) => {
+  if (!profileData) return <h1>data not found </h1>;
+
   return (
     <Container>
       <Row className="justify-content-md-center">

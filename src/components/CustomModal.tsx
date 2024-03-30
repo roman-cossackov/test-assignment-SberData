@@ -5,13 +5,14 @@ interface CustomModalProps {
   showModal: boolean;
   children: ReactNode;
   handleClose: () => void;
+  title: string;
 }
 
-const CustomModal = ({ children, showModal, handleClose }: CustomModalProps) => {
+const CustomModal = ({ children, showModal, handleClose, title }: CustomModalProps) => {
   return (
     <Modal show={showModal} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal</Modal.Title>
+        <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
       <Modal.Footer>
