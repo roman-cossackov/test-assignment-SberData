@@ -3,6 +3,7 @@ import { SyntheticEvent } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
+import { useUsersContext } from '../../hooks/useUsersContext';
 import { formData } from '../../types/interfaces';
 
 interface UserFormProps {
@@ -10,10 +11,12 @@ interface UserFormProps {
 }
 
 function UserForm({ handleSubmit }: UserFormProps) {
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const { curUser } = useUsersContext();
+
+  const [name, setName] = useState(curUser?.name || '');
+  const [surname, setSurname] = useState(curUser?.surname || '');
+  const [email, setEmail] = useState(curUser?.email || '');
+  const [phoneNumber, setPhoneNumber] = useState(curUser?.phoneNumber || '');
 
   return (
     <Form>

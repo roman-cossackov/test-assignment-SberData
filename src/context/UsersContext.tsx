@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 
-import { formData, userData } from '../types/interfaces';
+import { formData, IComment, userData } from '../types/interfaces';
 
 interface IUsersContext {
   curUser: userData | null;
@@ -8,6 +8,8 @@ interface IUsersContext {
   addNewUserToLocalStorage: (newData: formData) => void;
   searchUsersInLocalStorage: (searchTerm: string) => userData[];
   editUserInLocalStorage: (id: number, newUser: userData) => void;
+  rateUser: (rating: number) => void;
+  commentUser: (comment: IComment) => void;
 }
 
 interface UsersContextProvider {
@@ -41,7 +43,6 @@ export const UsersContextProvider = ({ children }: UsersContextProvider) => {
       email: newData.email,
       phoneNumber: newData.phoneNumber,
       rating: [],
-      ratedUsers: [],
       comments: [],
     };
 
@@ -69,9 +70,9 @@ export const UsersContextProvider = ({ children }: UsersContextProvider) => {
 
   const editUserInLocalStorage = (id: number, newUser: userData) => {
     const data: { users: userData[] } = JSON.parse(localStorage.usersData);
-    const users = data.users;
+    let users = data.users;
 
-    users.map((user) => {
+    users = users.map((user) => {
       if (user.id === id) {
         return newUser;
       }
@@ -79,6 +80,22 @@ export const UsersContextProvider = ({ children }: UsersContextProvider) => {
     });
 
     localStorage.usersData = JSON.stringify({ users });
+    setCurUser(newUser);
+  };
+
+  const rateUser = (rating: number) => {
+    if (!curUser || !rating) return;
+    const newRating = [...curUser.rating, rating];
+    const newUser = { ...curUser, rating: newRating };
+    editUserInLocalStorage(curUser?.id, newUser);
+  };
+
+  const commentUser = (comment: IComment) => {
+    if (!curUser || !comment) return;
+    const newComments = [...curUser.comments, comment];
+    const newUser = { ...curUser, comments: newComments };
+    console.log(newUser);
+    editUserInLocalStorage(curUser?.id, newUser);
   };
 
   const contextValue: IUsersContext = {
@@ -87,6 +104,8 @@ export const UsersContextProvider = ({ children }: UsersContextProvider) => {
     addNewUserToLocalStorage,
     searchUsersInLocalStorage,
     editUserInLocalStorage,
+    rateUser,
+    commentUser,
   };
 
   return <UsersContext.Provider value={contextValue}>{children}</UsersContext.Provider>;

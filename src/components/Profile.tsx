@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 
 import { useUsersContext } from '../hooks/useUsersContext';
-import { formData, userData } from '../types/interfaces';
+import { formData, IComment, userData } from '../types/interfaces';
+import Comments from './comments/Comments';
 import CustomModal from './CustomModal';
 import CommentForm from './forms/CommentForm';
+import RatingForm from './forms/RatingForm';
 import UserForm from './forms/UserForm';
 
 interface ProfileProps {
@@ -15,10 +17,31 @@ const Profile = ({ profileData }: ProfileProps) => {
   const [showEdit, setShowEdit] = useState(false);
   const [showAddComment, setShowAddComment] = useState(false);
   const [showRate, setShowRate] = useState(false);
+  const [showComments, setShowComments] = useState(false);
 
-  const handleEditFormSubmit = () => {};
-  const handleRateFormSubmit = () => {};
-  const handleCommentFormSubmit = () => {};
+  const { rateUser, editUserInLocalStorage, curUser, commentUser } = useUsersContext();
+
+  const handleEditFormSubmit = (newData: formData) => {
+    if (!curUser) return;
+    const newUser = {
+      ...curUser,
+      name: newData.name,
+      surname: newData.surname,
+      email: newData.email,
+      phoneNumber: newData.phoneNumber,
+    };
+
+    editUserInLocalStorage(curUser?.id, newUser);
+    setShowEdit(false);
+  };
+  const handleRateFormSubmit = (rating: number) => {
+    rateUser(rating);
+    setShowRate(false);
+  };
+  const handleCommentFormSubmit = (comment: IComment) => {
+    commentUser(comment);
+    setShowAddComment(false);
+  };
 
   if (!profileData) return <h1>data not found </h1>;
 
@@ -43,10 +66,19 @@ const Profile = ({ profileData }: ProfileProps) => {
                   <strong>Phone number:</strong> {profileData.phoneNumber}
                 </Card.Text>
                 <Card.Text>
-                  <strong>Rating:</strong> {}
+                  <strong>Rating:</strong>{' '}
+                  {profileData.rating.reduce((ac, n) => ac + n, 0) /
+                    profileData.rating.length || 'Пока нет оценок'}
                 </Card.Text>
                 <Card.Text>
-                  <strong>Comments:</strong> {}
+                  <strong>Comments:</strong> {curUser?.comments.length}
+                  <Button
+                    onClick={() => {
+                      setShowComments((prev) => !prev);
+                    }}
+                  >
+                    Show Comments
+                  </Button>
                 </Card.Text>
                 <Button
                   variant="primary"
@@ -77,6 +109,7 @@ const Profile = ({ profileData }: ProfileProps) => {
           </Col>
         </Row>
       </Container>
+      {showComments && <Comments />}
       <CustomModal
         showModal={showEdit}
         handleClose={() => {
@@ -102,7 +135,7 @@ const Profile = ({ profileData }: ProfileProps) => {
         }}
         title={'Rate user'}
       >
-        <UserForm handleSubmit={handleRateFormSubmit} />
+        <RatingForm handleSubmit={handleRateFormSubmit} />
       </CustomModal>
     </>
   );

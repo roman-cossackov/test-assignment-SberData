@@ -2,26 +2,26 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { formData } from '../../types/interfaces';
+import { formData, IComment } from '../../types/interfaces';
 
 interface CommentFormProps {
-  handleSubmit: (newData: formData) => void;
+  handleSubmit: (comment: IComment) => void;
 }
 
 function CommentForm({ handleSubmit }: CommentFormProps) {
-  const [authorEmail, setAuthorEmail] = useState('');
-  const [surname, setSurname] = useState('');
+  const [author, setAuthor] = useState('');
+  const [text, setText] = useState('');
 
   return (
     <Form>
-      <Form.Group className="mb-3" controlId="formName">
-        <Form.Label></Form.Label>
+      <Form.Group className="mb-3" controlId="formAuthor">
+        <Form.Label>Author name</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Enter your email"
-          value={authorEmail}
+          placeholder="Enter author name"
+          value={author}
           onChange={(event) => {
-            setAuthorEmail(event.target.value);
+            setAuthor(event.target.value);
           }}
         />
       </Form.Group>
@@ -30,10 +30,10 @@ function CommentForm({ handleSubmit }: CommentFormProps) {
         <Form.Label>Write comment</Form.Label>
         <Form.Control
           type="textarea"
-          placeholder="Surname"
-          value={surname}
+          placeholder="Your comment..."
+          value={text}
           onChange={(event) => {
-            setSurname(event.target.value);
+            setText(event.target.value);
           }}
         />
       </Form.Group>
@@ -43,7 +43,7 @@ function CommentForm({ handleSubmit }: CommentFormProps) {
         type="submit"
         onClick={(event) => {
           event.preventDefault();
-        //   handleSubmit();
+          handleSubmit({ author, text, date: new Date() });
         }}
       >
         Submit

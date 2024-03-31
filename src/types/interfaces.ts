@@ -6,19 +6,13 @@ export interface formData {
 }
 
 export interface IComment {
-  authorId: number;
+  author: string;
   text: string;
   date: Date;
 }
 
-export interface IRating {
-  authorId: number;
-  score: 1 | 2 | 3 | 4 | 5;
-}
-
 export interface userData extends formData {
   id: number;
-  rating: IRating[];
-  ratedUsers: number[];
+  rating: number[];
   comments: IComment[];
 }

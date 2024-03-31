@@ -50,7 +50,6 @@ const Search = ({ onAddUser }: SearchProps) => {
                 <ListGroup.Item
                   key={index}
                   onClick={() => {
-                    console.log('hello');
                     handleUserSelect(variant);
                     setShowVariants(false);
                   }}
