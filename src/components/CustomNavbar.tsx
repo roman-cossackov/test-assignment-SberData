@@ -15,7 +15,7 @@ const CustomNavbar = () => {
 
   const handleFormSubmit = (newData: formData) => {
     if (!validateEmail(newData.email)) {
-      alert('User with this email already existst');
+      alert('User with this email already existst or email is not valid');
       return;
     }
 

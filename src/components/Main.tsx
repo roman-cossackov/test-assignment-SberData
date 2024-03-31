@@ -16,7 +16,7 @@ const Main = () => {
   );
 
   return (
-    <Container style={{ height: '600px', marginTop: '100px' }}>
+    <Container style={{ minHeight: '460px', marginTop: '100px' }}>
       <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>User Profile</h1>
       {profileContent}
     </Container>

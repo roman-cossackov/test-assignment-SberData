@@ -7,11 +7,11 @@ import CustomNavbar from './components/CustomNavbar';
 import Footer from './components/Footer';
 import Main from './components/Main';
 import { UsersContextProvider } from './context/UsersContext';
-import { useUserContext } from './hooks/UseUsersContext';
+import { generateRandomUsers } from './utils/generateRandomUsers';
 
 function App() {
   if (!localStorage.usersData) {
-    localStorage.usersData = '{ "users": [] }';
+    localStorage.usersData = JSON.stringify({ users: generateRandomUsers(20) });
   }
 
   return (

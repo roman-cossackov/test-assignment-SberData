@@ -55,12 +55,14 @@ export const UsersContextProvider = ({ children }: UsersContextProvider) => {
     const data: { users: userData[] } = JSON.parse(localStorage.usersData);
     const users = data.users;
     const variants: userData[] = [];
+    searchTerm = searchTerm.toLowerCase();
 
     users.forEach((user) => {
-      if (user.email.length < searchTerm.length) {
+      const email = user.email.toLowerCase();
+      if (email.length < searchTerm.length) {
         return;
       }
-      if (user.email.slice(0, searchTerm.length) === searchTerm) {
+      if (email.slice(0, searchTerm.length) === searchTerm) {
         variants.push(user);
       }
     });

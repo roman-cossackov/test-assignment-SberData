@@ -3,6 +3,8 @@ import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 
 import { useUsersContext } from '../hooks/useUsersContext';
 import { formData, IComment, userData } from '../types/interfaces';
+import { validateEmail } from '../utils/validateEmail';
+import { validatePhoneNumber } from '../utils/validatePhoneNumber';
 import Comments from './comments/Comments';
 import CustomModal from './CustomModal';
 import CommentForm from './forms/CommentForm';
@@ -30,6 +32,11 @@ const Profile = ({ profileData }: ProfileProps) => {
       email: newData.email,
       phoneNumber: newData.phoneNumber,
     };
+
+    if (!validatePhoneNumber(newData.phoneNumber)) {
+      alert('Invalid phone number');
+      return;
+    }
 
     editUserInLocalStorage(curUser?.id, newUser);
     setShowEdit(false);
@@ -73,6 +80,8 @@ const Profile = ({ profileData }: ProfileProps) => {
                 <Card.Text>
                   <strong>Comments:</strong> {curUser?.comments.length}
                   <Button
+                    style={{ marginLeft: '10px' }}
+                    variant="outline-primary"
                     onClick={() => {
                       setShowComments((prev) => !prev);
                     }}
@@ -80,30 +89,34 @@ const Profile = ({ profileData }: ProfileProps) => {
                     Show Comments
                   </Button>
                 </Card.Text>
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    setShowEdit(true);
-                  }}
-                >
-                  Edit Profile
-                </Button>
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    setShowAddComment(true);
-                  }}
-                >
-                  Add comment
-                </Button>
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    setShowRate(true);
-                  }}
-                >
-                  Rate user
-                </Button>
+                <Container style={{ marginTop: '40px' }}>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      setShowEdit(true);
+                    }}
+                    style={{ marginRight: '10px' }}
+                  >
+                    Edit Profile
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      setShowAddComment(true);
+                    }}
+                    style={{ marginRight: '10px' }}
+                  >
+                    Add comment
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      setShowRate(true);
+                    }}
+                  >
+                    Rate user
+                  </Button>
+                </Container>
               </Card.Body>
             </Card>
           </Col>

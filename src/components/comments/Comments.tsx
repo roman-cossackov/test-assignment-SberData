@@ -9,10 +9,10 @@ const Comments = () => {
   if (!curUser) return <div>Comments not found</div>;
 
   return (
-    <Container>
+    <Container style={{ marginTop: '30px' }}>
       <Row>
         <Col>
-          <h2>Comments</h2>
+          <h2 style={{ textAlign: 'center' }}>Comments</h2>
           {curUser.comments.map((comment, index) => (
             <Comment
               key={index}

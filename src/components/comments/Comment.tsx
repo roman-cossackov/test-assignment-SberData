@@ -13,7 +13,7 @@ const Comment = ({ author, text, date }: CommentProps) => {
         <Card.Title>{author}</Card.Title>
         <Card.Text>{text}</Card.Text>
         <Card.Footer className="text-muted">
-          {date.toLocaleDateString('ru', {
+          {new Date(date).toLocaleDateString('ru', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
