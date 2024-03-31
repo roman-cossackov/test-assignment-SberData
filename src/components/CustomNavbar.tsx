@@ -3,6 +3,8 @@ import { Container, Navbar } from 'react-bootstrap';
 
 import { useUsersContext } from '../hooks/useUsersContext';
 import { formData } from '../types/interfaces';
+import { validateEmail } from '../utils/validateEmail';
+import { validatePhoneNumber } from '../utils/validatePhoneNumber';
 import CustomModal from './CustomModal';
 import CustomForm from './forms/UserForm';
 import Search from './Search';
@@ -12,6 +14,16 @@ const CustomNavbar = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleFormSubmit = (newData: formData) => {
+    if (!validateEmail(newData.email)) {
+      alert('User with this email already existst');
+      return;
+    }
+
+    if (!validatePhoneNumber(newData.phoneNumber)) {
+      alert('Invalid phone number');
+      return;
+    }
+
     addNewUserToLocalStorage(newData);
     setShowModal(false);
   };
@@ -36,7 +48,7 @@ const CustomNavbar = () => {
         }}
         title={'Add New User'}
       >
-        <CustomForm handleSubmit={handleFormSubmit} />
+        <CustomForm handleSubmit={handleFormSubmit} fillData={false} />
       </CustomModal>
     </Navbar>
   );

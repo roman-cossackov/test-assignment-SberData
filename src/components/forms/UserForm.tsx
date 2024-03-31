@@ -8,15 +8,18 @@ import { formData } from '../../types/interfaces';
 
 interface UserFormProps {
   handleSubmit: (newData: formData) => void;
+  fillData: boolean;
 }
 
-function UserForm({ handleSubmit }: UserFormProps) {
+function UserForm({ handleSubmit, fillData }: UserFormProps) {
   const { curUser } = useUsersContext();
 
-  const [name, setName] = useState(curUser?.name || '');
-  const [surname, setSurname] = useState(curUser?.surname || '');
-  const [email, setEmail] = useState(curUser?.email || '');
-  const [phoneNumber, setPhoneNumber] = useState(curUser?.phoneNumber || '');
+  const [name, setName] = useState(fillData ? curUser?.name || '' : '');
+  const [surname, setSurname] = useState(fillData ? curUser?.surname || '' : '');
+  const [email, setEmail] = useState(fillData ? curUser?.email || '' : '');
+  const [phoneNumber, setPhoneNumber] = useState(
+    fillData ? curUser?.phoneNumber || '' : '',
+  );
 
   return (
     <Form>

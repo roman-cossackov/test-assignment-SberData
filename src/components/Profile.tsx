@@ -117,7 +117,7 @@ const Profile = ({ profileData }: ProfileProps) => {
         }}
         title={'Edit User'}
       >
-        <UserForm handleSubmit={handleEditFormSubmit} />
+        <UserForm handleSubmit={handleEditFormSubmit} fillData={true} />
       </CustomModal>
       <CustomModal
         showModal={showAddComment}
